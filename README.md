@@ -1,16 +1,17 @@
-
 # state-machine
 
-  Simple finite-state machine.
+> Simple finite-state machine.
+
+![Dr. Seuss Machine](http://goo.gl/Nau11)
 
 ## Installation
 
-    $ component install razic/state-machine
+```sh
+component install razic/state-machine
+```
 
 ## API
 
-   
-
 ## License
 
-  MIT
+MIT
