@@ -1,0 +1,14 @@
+{
+  "name": "state-machine",
+  "repo": "razic/state-machine",
+  "description": "Simple finite-state machine.",
+  "version": "0.0.1",
+  "keywords": [],
+  "dependencies": {},
+  "development": {},
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": [
+    "index.js"
+  ]
+}
