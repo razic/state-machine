@@ -21,28 +21,10 @@ Turnstile.prototype.state = "locked"; // This is your initial state
 Turnstile.prototype.pushes = 0;
 Turnstile.prototype.coins = 0;
 
-// Good
-Turnstile.prototype.events = {
-  "push": [
-    { from: "locked", to: "locked" },
-    { from: "unlocked", to: "locked" }
-  ],
-  "coin": [
-    { from: "locked", to: "unlocked" },
-    { from: "unlocked", to: "unlocked" }
-  ]
-};
-
-// Better
+// Define the events
 Turnstile.prototype.events = {
   "push": [{ from: ["locked", "unlocked"], to: "locked" }],
   "coin": [{ from: ["locked", "unlocked"], to: "unlocked" }]
-};
-
-// Best
-Turnstile.prototype.events = {
-  "push": [{ from: "unlocked", to: "locked" }],
-  "coin": [{ from: "locked", to: "unlocked" }]
 };
 
 // Mixin the prototype
