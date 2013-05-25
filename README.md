@@ -46,15 +46,15 @@ turnstile.can("coin"); // Returns true
 turnstile.coin();      // Emits the "coin" event
 turnstile.state;       // Returns "unlocked"
 turnstile.can("coin"); // Returns true
-turnstile.can("push);  // Returns true
+turnstile.can("push");  // Returns true
 turnstile.coin();      // Emits the "coin" event
 turnstile.state;       // Returns "unlocked"
 turnstile.can("coin"); // Returns true
-turnstile.can("push);  // Returns true
+turnstile.can("push");  // Returns true
 turnstile.push();      // Emits the "push" event
 turnstile.state;       // Returns "locked"
 turnstile.can("coin"); // Returns true
-turnstile.can("push);  // Returns false
+turnstile.can("push");  // Returns false
 ```
 
 ## License
