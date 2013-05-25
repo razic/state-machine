@@ -17,7 +17,9 @@ var StateMachine = require('state-machine');
 
 function Turnstile() {}
 
-Turnstile.prototype.state = "locked";
+Turnstile.prototype.state = "locked"; // This is your initial state
+Turnstile.prototype.pushes = 0;
+Turnstile.prototype.coins = 0;
 
 // Good
 Turnstile.prototype.events = [
@@ -44,18 +46,14 @@ StateMachine(Turnstile.prototype);
 
 // Declare the "push" event behavior
 Turnstile.prototype.on("push", function() {
-  // This actually transitions the state then executes the callback
-  this.transition(function() {
-    this.pushes += 1;
-  });
+  this.transition(); // This actually transitions the state
+  this.pushes += 1;
 });
 
 // Declare the "coin" event behavior
 Turnstile.prototype.on("coin", function() {
-  // This actually transitions the state then executes the callback
-  this.transition(function() {
-    this.coins += 1;
-  });
+  this.transition(); // This actually transitions the state
+  this.coins += 1;
 });
 
 // Create your object
@@ -81,6 +79,8 @@ turnstile.push();      // Emits the "push" event
 turnstile.state;       // Returns "locked"
 turnstile.can("coin"); // Returns true
 turnstile.can("push"); // Returns false
+turnstile.coins        // Returns 2
+turnstile.pushes       // Returns 1
 ```
 
 ## License
