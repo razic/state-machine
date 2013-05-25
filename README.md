@@ -1,8 +1,8 @@
 # state-machine
 
-![Dr. Seuss Machine](http://goo.gl/Nau11)
+> Simple finite-state machine.
 
-Simple finite-state machine.
+> ![Dr. Seuss Machine](http://goo.gl/Nau11)
 
 ## Installation
 
