@@ -15,82 +15,46 @@ component install razic/state-machine
 ```javascript
 var StateMachine = require('state-machine');
 
-function Turnstile() {
-}
+function Turnstile() {}
+
+Turnstile.prototype.state = "locked";
+
+Turnstile.prototype.events = {
+  "push": { from: ["locked", "unlocked"], to: "locked" },
+  "coin": { from: ["locked", "unlocked"], to: "unlocked" }
+};
 
 StateMachine(Turnstile.prototype);
 
-Turnstile.prototype.state = "locked";
-Turnstile.prototype.states = ["locked", "unlocked"];
-Turnstile.prototype.events = ["coin", "push"];
+Turnstile.prototype.on("push", function() {
+  this.transition();
+});
 
 Turnstile.prototype.on("coin", function() {
-  this.state = "unlocked";
+  this.transition();
 });
-
-Turnstile.prototype.on("push", function() {
-  this.state = "locked";
-});
-
 
 var turnstile = new Turnstile();
 
-// Returns "locked"
-turnstile.state;
-
-// Returns false
-turnstile.can("push");
-
-// Returns true
-turnstile.can("coin");
-
-// Emits the "push" event
-turnstile.push();
-
-// Returns "locked"
-turnstile.state
-
-// Returns true
-turnstile.can("coin");
-
-// Returns false
-turnstile.can("push");
-
-// Emits the "coin" event
-turnstile.coin();
-
-// Returns "unlocked"
-turnstile.state
-
-// Returns true
-turnstile.can("coin");
-
-// Returns true
-turnstile.can("push);
-
-// Emits the "coin" event
-turnstile.coin();
-
-// Returns "unlocked"
-turnstile.state
-
-// Returns true
-turnstile.can("coin");
-
-// Returns true
-turnstile.can("push);
-
-// Emits the "push" event
-turnstile.push();
-
-// Returns "locked"
-turnstile.state
-
-// Returns true
-turnstile.can("coin");
-
-// Returns false
-turnstile.can("push);
+turnstile.state;       // Returns "locked"
+turnstile.can("push"); // Returns false
+turnstile.can("coin"); // Returns true
+turnstile.push();      // Emits the "push" event
+turnstile.state;       // Returns "locked"
+turnstile.can("push"); // Returns false
+turnstile.can("coin"); // Returns true
+turnstile.coin();      // Emits the "coin" event
+turnstile.state;       // Returns "unlocked"
+turnstile.can("coin"); // Returns true
+turnstile.can("push);  // Returns true
+turnstile.coin();      // Emits the "coin" event
+turnstile.state;       // Returns "unlocked"
+turnstile.can("coin"); // Returns true
+turnstile.can("push);  // Returns true
+turnstile.push();      // Emits the "push" event
+turnstile.state;       // Returns "locked"
+turnstile.can("coin"); // Returns true
+turnstile.can("push);  // Returns false
 ```
 
 ## License
