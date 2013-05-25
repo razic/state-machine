@@ -22,38 +22,44 @@ Turnstile.prototype.pushes = 0;
 Turnstile.prototype.coins = 0;
 
 // Good
-Turnstile.prototype.events = [
-  { name: "push", from: "locked", to: "locked" },
-  { name: "push", from: "unlocked", to: "locked" },
-  { name: "coin", from: "locked", to: "unlocked" },
-  { name: "coin", from: "unlocked", to: "unlocked" }
-];
+Turnstile.prototype.events = {
+  "push": [
+    { from: "locked", to: "locked" },
+    { from: "unlocked", to: "locked" }
+  ],
+  "coin": [
+    { from: "locked", to: "unlocked" },
+    { from: "unlocked", to: "unlocked" }
+  ]
+};
 
 // Better
-Turnstile.prototype.events = [
-  { name: "push", from: ["locked", "unlocked"], to: "locked" },
-  { name: "coin", from: ["locked", "unlocked"], to: "unlocked" },
-];
+Turnstile.prototype.events = {
+  "push": [{ from: ["locked", "unlocked"], to: "locked" }],
+  "coin": [{ from: ["locked", "unlocked"], to: "unlocked" }]
+};
 
 // Best
-Turnstile.prototype.events = [
-  { name: "push", from: "unlocked", to: "locked" },
-  { name: "coin", from: "locked", to: "unlocked" },
-];
+Turnstile.prototype.events = {
+  "push": [{ from: "unlocked", to: "locked" }],
+  "coin": [{ from: "locked", to: "unlocked" }]
+};
 
 // Mixin the prototype
 StateMachine(Turnstile.prototype);
 
 // Declare the "push" event behavior
 Turnstile.prototype.on("push", function() {
-  this.transition(); // This actually transitions the state
-  this.pushes += 1;
+  this.transition(function() {
+    this.pushes += 1;
+  });
 });
 
 // Declare the "coin" event behavior
 Turnstile.prototype.on("coin", function() {
-  this.transition(); // This actually transitions the state
-  this.coins += 1;
+  this.transition(function() {
+    this.coins += 1;
+  });
 });
 
 // Create your object
