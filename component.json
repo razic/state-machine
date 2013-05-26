@@ -2,7 +2,7 @@
   "name": "state-machine",
   "repo": "razic/state-machine",
   "description": "Simple finite-state machine.",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "keywords": [],
   "dependencies": {
     "component/emitter": "1.0.0"
