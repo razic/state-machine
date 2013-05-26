@@ -12,7 +12,8 @@ module.exports = StateMachine;
 /**
  * Constructor
  */
-function StateMachine() {
+function StateMachine(object) {
+  if (object) return mixin(object);
 }
 
 /**
@@ -43,7 +44,7 @@ StateMachine.prototype.transition = function(callback) {
 };
 
 /**
- * Mixin
+ * Mixins
  */
 Emitter(StateMachine.prototype);
 
@@ -55,3 +56,10 @@ function createEventHandler(name) {
     this.emit.apply(this, [name].concat([].slice.call(arguments, 0)));
   };
 }
+
+function mixin(object) {
+  for (var key in StateMachine.prototype)
+    object[key] = StateMachine.prototype[key];
+
+  return object;
+};

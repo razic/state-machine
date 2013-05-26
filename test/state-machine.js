@@ -75,4 +75,13 @@ describe('StateMachine', function() {
       assert(transitionArguments[1] === "on");
     });
   });
+
+  describe("a mixin", function() {
+    it("should mixin", function() {
+      var object = StateMachine({});
+
+      for (var key in StateMachine.prototype)
+        assert(typeof object[key] === typeof StateMachine.prototype[key]);
+    });
+  });
 });
