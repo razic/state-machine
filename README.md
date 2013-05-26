@@ -23,7 +23,7 @@ As a `StateMachine` instance:
 var StateMachine = require("state-machine");
 var stateMachine = new StateMachine();
 
-stateMachine.state = "off"
+stateMachine.state = "off";
 stateMachine.events = {
   push: [
     { from: ["off"], to: "on" },
