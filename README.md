@@ -36,13 +36,17 @@ As a mixin:
 
 ```javascript
 var StateMachine = require("state-machine");
-var button = StateMachine({});
+var button = {
+  state: "off",
+  events: {
+    "push": [
+      { from: ["on"], to: "off" },
+      { from: ["off"], to: "on" }
+    ]
+  }
+};
 
-button.state = "off";
-button.events = { push: [
-  { from: ["off"], to: "on" },
-  { from: ["on"], to: "off" }
-] };
+StateMachine(button);
 
 button.push();
 ```
@@ -53,12 +57,13 @@ As a prototype mixin:
 var StateMachine = require("state-machine");
 var Button = function() {};
 
-StateMachine(Button.prototype);
-
+Button.prototype.state = "off";
 Button.prototype.events = { push: [
   { from: ["off"], to: "on" }
   { from: ["on"], to: "off" }
 ] };
+
+StateMachine(Button.prototype);
 
 var button = new Button();
 

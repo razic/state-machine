@@ -83,5 +83,21 @@ describe('StateMachine', function() {
       for (var key in StateMachine.prototype)
         assert(typeof object[key] === typeof StateMachine.prototype[key]);
     });
+
+    it(
+      "should define the event methods if `events` property was already set",
+      function() {
+        var button = StateMachine({
+          events: {
+            "push": [
+              { from: ["on"], to: "off" },
+              { from: ["off"], to: "on" }
+            ]
+          }
+        });
+
+        assert(typeof button.push === 'function');
+      }
+    );
   });
 });

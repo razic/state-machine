@@ -20,13 +20,8 @@ function StateMachine(object) {
  * Prototype
  */
 Object.defineProperty(StateMachine.prototype, "events", {
-  get: function() {
-    return this._events;
-  },
-  set: function(_events) {
-    for (var name in _events) this[name] = createEventHandler.call(this, name);
-    this._events = _events;
-  }
+  get: getEvents,
+  set: setEvents
 });
 
 StateMachine.prototype.transition = function(callback) {
@@ -61,5 +56,16 @@ function mixin(object) {
   for (var key in StateMachine.prototype)
     object[key] = StateMachine.prototype[key];
 
+  if (object.events) setEvents.call(object, object.events);
+
   return object;
-};
+}
+
+function getEvents() {
+  return this._events;
+}
+
+function setEvents(_events) {
+  for (var name in _events) this[name] = createEventHandler.call(this, name);
+  this._events = _events;
+}
