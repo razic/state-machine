@@ -24,10 +24,12 @@ var StateMachine = require("state-machine");
 var stateMachine = new StateMachine();
 
 stateMachine.state = "off"
-stateMachine.events = { "push": [
-  { from: ["off"], to: "on" },
-  { from: ["on"], to: "off" }
-] };
+stateMachine.events = {
+  push: [
+    { from: ["off"], to: "on" },
+    { from: ["on"], to: "off" }
+  ]
+};
 
 stateMachine.push();
 ```
@@ -39,7 +41,7 @@ var StateMachine = require("state-machine");
 var button = {
   state: "off",
   events: {
-    "push": [
+    push: [
       { from: ["on"], to: "off" },
       { from: ["off"], to: "on" }
     ]
@@ -58,10 +60,12 @@ var StateMachine = require("state-machine");
 var Button = function() {};
 
 Button.prototype.state = "off";
-Button.prototype.events = { push: [
-  { from: ["off"], to: "on" }
-  { from: ["on"], to: "off" }
-] };
+Button.prototype.events = {
+  push: [
+    { from: ["off"], to: "on" },
+    { from: ["on"], to: "off" }
+  ]
+};
 
 StateMachine(Button.prototype);
 
