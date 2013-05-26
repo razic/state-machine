@@ -76,6 +76,17 @@ describe('StateMachine', function() {
     });
   });
 
+  describe("#can", function() {
+    it("should let you know if it can emit an event", function() {
+      assert(stateMachine.can("push") === true);
+      stateMachine.state = "on";
+      stateMachine.events = { "push": [{ from: ["off"], to: "on" }] };
+      assert(stateMachine.can("push") === false);
+      stateMachine.state = "off";
+      assert(stateMachine.can("push") === true);
+    });
+  });
+
   describe("a mixin", function() {
     it("should mixin", function() {
       var object = StateMachine({});

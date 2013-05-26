@@ -24,18 +24,19 @@ Object.defineProperty(StateMachine.prototype, "events", {
   set: setEvents
 });
 
-StateMachine.prototype.transition = function(callback) {
-  var state = this.state;
+StateMachine.prototype.transition = function(fn) {
+  var state = this.state, to;
+  for (var name in this.events) this.state = this.can(name, true);
+  if (fn.call && state !== this.state) fn.call(this, state, this.state);
+};
 
-  loops:
-    for (var name in this.events)
-      for (var i = 0; i < this.events[name].length; i++)
-        for (var ii = 0; ii < this.events[name][i].from.length; ii++)
-          if (this.events[name][i].from[ii] === state)
-            if (!!(this.state = this.events[name][i].to)) break loops;
+StateMachine.prototype.can = function(name, to) {
+  for (var i = 0; i < this.events[name].length; i++)
+    for (var ii = 0; ii < this.events[name][i].from.length; ii++)
+      if (this.events[name][i].from[ii] === this.state)
+        return to ? this.events[name][i].to : true;
 
-  if (callback.call && state !== this.state)
-    callback.call(this, state, this.state);
+  return to ? this.state : false;
 };
 
 /**

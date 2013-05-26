@@ -78,6 +78,10 @@ button.push();
 
 Register an `event` handler `fn`.
 
+### StateMachine#can(event)
+
+Returns `true` or `false` if the event can emit.
+
 ### StateMachine#transition(fn)
 
 Transitions the state appropriately then calls `fn` passing two arguments, the
