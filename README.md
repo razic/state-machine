@@ -12,6 +12,75 @@ component install razic/state-machine
 
 ## API
 
+### StateMachine(object)
+
+The `StateMachine` can be used as a mixin. For example, a "plain" object may also
+become a state machine, or you may extend an existing prototype.
+
+As a `StateMachine` instance:
+
+```javascript
+var StateMachine = require("state-machine");
+var stateMachine = new StateMachine();
+
+stateMachine.state = "off"
+stateMachine.events = { "push": [
+  { from: ["off"], to: "on" },
+  { from: ["on"], to: "off" }
+] };
+
+stateMachine.push();
+```
+
+As a mixin:
+
+```javascript
+var StateMachine = require("state-machine");
+var button = StateMachine({});
+
+button.state = "off";
+button.events = { push: [
+  { from: ["off"], to: "on" },
+  { from: ["on"], to: "off" }
+] };
+
+button.push();
+```
+
+As a prototype mixin:
+
+```javascript
+var StateMachine = require("state-machine");
+var Button = function() {};
+
+StateMachine(Button.prototype);
+
+Button.prototype.events = { push: [
+  { from: ["off"], to: "on" }
+  { from: ["on"], to: "off" }
+] };
+
+var button = new Button();
+
+button.push();
+```
+
+### StateMachine#on(event, fn)
+
+Register an `event` handler `fn`.
+
+### StateMachine#transition(fn)
+
+Transitions the state appropriately then calls `fn` passing two arguments, the
+`from` state and `to` state.
+
+### StateMachine#event(...)
+
+Where `#event` is one of the declared events. These methods get dynamically
+created after setting the `events` property.
+
+## Example
+
 ```javascript
 var StateMachine = require('state-machine');
 
