@@ -3,7 +3,11 @@
   "repo": "razic/state-machine",
   "description": "Simple finite-state machine.",
   "version": "0.4.0",
-  "keywords": [],
+  "keywords": [
+    "finite",
+    "state",
+    "machine"
+  ],
   "dependencies": {
     "component/emitter": "1.0.0"
   },
