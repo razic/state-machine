@@ -1,6 +1,6 @@
 # state-machine
 
-> Simple finite-state machine.
+> Event-driven finite-state machine.
 
 > ![Dr. Seuss Machine](http://goo.gl/Nau11)
 
@@ -30,8 +30,6 @@ stateMachine.events = {
     { from: ["on"], to: "off" }
   ]
 };
-
-stateMachine.push();
 ```
 
 As a mixin:
@@ -49,8 +47,6 @@ var button = {
 };
 
 StateMachine(button);
-
-button.push();
 ```
 
 As a prototype mixin:
@@ -68,10 +64,6 @@ Button.prototype.events = {
 };
 
 StateMachine(Button.prototype);
-
-var button = new Button();
-
-button.push();
 ```
 
 ### StateMachine#on(event, fn)
@@ -80,12 +72,12 @@ Register an `event` handler `fn`.
 
 ### StateMachine#can(event)
 
-Returns `true` or `false` if the event can emit.
+Returns `true` or `false` if the event can transition.
 
 ### StateMachine#transition(fn)
 
 Transitions the state appropriately then calls `fn` passing two arguments, the
-`from` state and `to` state.
+`from` and `to` states.
 
 ### StateMachine#event(...)
 
@@ -93,6 +85,11 @@ Where `#event` is one of the declared events. These methods get dynamically
 created after setting the `events` property.
 
 ## Example
+
+A good example is a [turnstile](http://goo.gl/EfEVu). Here is what the state
+diagram looks like:
+
+![Turnstile state diagram](http://goo.gl/EEIZS)
 
 ```javascript
 var StateMachine = require('state-machine');
@@ -105,8 +102,8 @@ Turnstile.prototype.coins = 0;
 
 // Define the events
 Turnstile.prototype.events = {
-  "push": [{ from: ["unlocked"], to: "locked" }],
-  "coin": [{ from: ["locked", "unlocked"], to: "unlocked" }]
+  push: [{ from: ["unlocked"], to: "locked" }],
+  coin: [{ from: ["locked", "unlocked"], to: "unlocked" }]
 };
 
 // Mixin the prototype

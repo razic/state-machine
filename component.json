@@ -1,9 +1,10 @@
 {
   "name": "state-machine",
   "repo": "razic/state-machine",
-  "description": "Simple finite-state machine.",
+  "description": "Event-driven finite-state machine.",
   "version": "0.4.1",
   "keywords": [
+    "event",
     "finite",
     "state",
     "machine"
