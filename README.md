@@ -105,7 +105,7 @@ Turnstile.prototype.coins = 0;
 
 // Define the events
 Turnstile.prototype.events = {
-  "push": [{ from: ["locked", "unlocked"], to: "locked" }],
+  "push": [{ from: ["unlocked"], to: "locked" }],
   "coin": [{ from: ["locked", "unlocked"], to: "unlocked" }]
 };
 
