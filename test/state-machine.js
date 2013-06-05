@@ -13,12 +13,11 @@ describe('StateMachine', function() {
     transitionArguments = null;
     stateMachine = new StateMachine();
     stateMachine.pushes = 0;
-    stateMachine.state = "off";
+    stateMachine.coins = 0;
+    stateMachine.state = "locked";
     stateMachine.events = {
-      "push": [
-        { from: ["on"], to: "off"  },
-        { from: ["off"], to: "on"  }
-      ]
+      push: [{ from: ["unlocked"], to: "locked"  }],
+      coin: [{ from: ["locked", "unlocked"], to: "unlocked" }]
     };
     stateMachine.on("push", function() {
       eventHandlerContext = this;
@@ -29,10 +28,16 @@ describe('StateMachine', function() {
         this.pushes += 1;
       });
     });
+    stateMachine.on("coin", function() {
+      this.transition(function() {
+        this.coins += 1;
+      });
+    });
   });
 
   it("should define event methods", function() {
     assert(typeof stateMachine.push === 'function');
+    assert(typeof stateMachine.coin === 'function');
   });
 
   it("should change the context of the event handler", function() {
@@ -48,43 +53,64 @@ describe('StateMachine', function() {
 
   describe("#transition", function() {
     it("should change state appropriately", function() {
-      assert(stateMachine.state === "off");
+      assert(stateMachine.state === "locked");
+
       stateMachine.push();
-      assert(stateMachine.state === "on");
+      assert(stateMachine.state === "locked");
+
       stateMachine.push();
-      assert(stateMachine.state === "off");
+      assert(stateMachine.state === "locked");
+
+      stateMachine.coin();
+      assert(stateMachine.state === "unlocked");
+
+      stateMachine.coin();
+      assert(stateMachine.state === "unlocked");
+
       stateMachine.push();
-      assert(stateMachine.state === "on");
-      stateMachine.push();
-      assert(stateMachine.state === "off");
+      assert(stateMachine.state === "locked");
     });
 
-    it("should execute the callback only if the state changed", function() {
+    it("should execute the callback only if it can transition", function() {
+      assert(stateMachine.coins === 0);
+      assert(stateMachine.pushes === 0);
+
+      stateMachine.push();
+      stateMachine.coin();
+      stateMachine.coin();
       stateMachine.push();
       stateMachine.push();
-      assert(stateMachine.pushes === 2);
-      stateMachine.events = { "push": [{ from: ["on", "off"], to: "off" }] };
-      stateMachine.push();
-      stateMachine.push();
-      assert(stateMachine.pushes === 2);
+      stateMachine.coin();
+
+      assert(stateMachine.coins === 3);
+      assert(stateMachine.pushes === 1);
     });
 
     it("should pass arguments to the callback appropriately", function() {
+      assert(stateMachine.state === "locked");
+
+      stateMachine.coin();
       stateMachine.push();
-      assert(transitionArguments[0] === "off");
-      assert(transitionArguments[1] === "on");
+
+      assert(transitionArguments[0] === "unlocked");
+      assert(transitionArguments[1] === "locked");
     });
   });
 
   describe("#can", function() {
     it("should let you know if it can emit an event", function() {
-      assert(stateMachine.can("push") === true);
-      stateMachine.state = "on";
-      stateMachine.events = { "push": [{ from: ["off"], to: "on" }] };
+      assert(stateMachine.state === "locked");
       assert(stateMachine.can("push") === false);
-      stateMachine.state = "off";
+      assert(stateMachine.can("coin") === true);
+
+      stateMachine.coin();
       assert(stateMachine.can("push") === true);
+      assert(stateMachine.can("coin") === true);
     });
+
+    it("should return false when you pass an undefined event", function() {
+      assert(stateMachine.can("fail") === false);
+    })
   });
 
   describe("a mixin", function() {
