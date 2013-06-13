@@ -1,4 +1,4 @@
-# state-machine
+# State Machine
 
 > Event-driven finite-state machine.
 
